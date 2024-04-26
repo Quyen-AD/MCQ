@@ -4,7 +4,7 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Login Page</title>
+	<title>Register Page</title>
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
 		  integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
 		  crossorigin="anonymous">
@@ -14,21 +14,31 @@
 <main class="container-fluid">
 	<div class="row justify-content-center">
 		<div class="col-md-6">
-			<h2 class="text-center">Login</h2>
-			<form method="post" th:action="@{/login/try}" class="my-4">
+			<h2 class="text-center">Register</h2>
+			<form method="post" th:action="@{/register/try}" th:object="${user}" class="my-4">
 				<div class="form-group">
 					<label for="email">Email</label>
-					<input type="text" class="form-control" id="email" name="email">
+					<input type="text" class="form-control" id="email" name="email" th:field="*{email}">
+				</div>
+
+				<div class="form-group">
+					<label for="fullName">Full name</label>
+					<input type="text" class="form-control" id="fullName" name="fullName" th:field="*{fullName}">
+				</div>
+
+				<div class="form-group">
+					<label for="phone">Phone</label>
+					<input type="text" class="form-control" id="phone" name="phone" th:field="*{phone}">
 				</div>
 
 				<div class="form-group">
 					<label for="password">Password</label>
-					<input type="password" class="form-control" id="password" name="password">
+					<input type="password" class="form-control" id="password" name="password" th:field="*{password}">
 				</div>
 
 				<button type="submit" class="btn btn-primary">Submit</button>
 			</form>
-			<a th:href="@{/register}">Register</a>
+			<a th:href="@{/login}">Login</a>
 		</div>
 	</div>
 </main>
