@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <title>Theme System Manager</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/index.css}">
+</head>
+<body>
+<div th:insert="navbar.html :: navbar"></div>
+
+<div class="container my-2">
+    <h1>Theme List</h1>
+    <a th:href="@{/theme/form-create-theme}" class="btn btn-primary btn-sm mb-3">Add theme</a>
+
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="theme : ${themes}">
+                <td th:text="${theme.id}"></td>
+                <td th:text="${theme.name}"></td>
+                <td th:text="${theme.status == 1 ? 'ACTIVE' : 'INACTIVE'}"></td>
+                <td>
+                    <a th:href="@{/theme/form-update-theme/{id}(id=${theme.id})}" class="btn btn-primary">Update</a>
+                    <a th:href="@{/theme/delete/{id}(id=${theme.id})}" class="btn btn-danger">Delete</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<div th:insert="footer.html :: footer"></div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
