@@ -1,7 +1,10 @@
 package com.example.demomcq.controller;
 
+import com.example.demomcq.model.Question;
+import com.example.demomcq.model.Quiz;
 import com.example.demomcq.model.User;
 import com.example.demomcq.repository.UserRepo;
+import com.example.demomcq.service.QuizService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -9,16 +12,19 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Controller
 public class AuthController {
 
     private final UserRepo userRepository;
+    private final QuizService quizService;
     private int userId = 0;
 
-    public AuthController(UserRepo userRepository) {
+    public AuthController(UserRepo userRepository, QuizService quizService) {
         this.userRepository = userRepository;
+        this.quizService = quizService;
     }
 
     @GetMapping("/login")
@@ -54,7 +60,9 @@ public class AuthController {
     }
 
     @GetMapping("/student-dashboard")
-    public String student() {
+    public String student(Model model) {
+        List<Quiz> quizzes = quizService.getAll();
+        model.addAttribute("quizzes", quizzes);
         return "student-index";
     }
 

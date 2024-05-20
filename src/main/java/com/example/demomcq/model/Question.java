@@ -1,10 +1,13 @@
 package com.example.demomcq.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import org.springframework.stereotype.Component;
+
+import java.util.Set;
 
 @Component
 @Entity
@@ -35,4 +38,9 @@ public class Question {
 	@EqualsAndHashCode.Exclude
 	@ToString.Exclude
 	private User author;
+
+	@ManyToMany(fetch = FetchType.EAGER,mappedBy = "questions")
+	@JsonIgnore
+	@EqualsAndHashCode.Exclude
+	private Set<Quiz> quizzes;
 }

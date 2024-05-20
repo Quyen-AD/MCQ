@@ -2,8 +2,10 @@ package com.example.demomcq.service;
 
 import com.example.demomcq.model.Question;
 import com.example.demomcq.model.QuestionForm;
+import com.example.demomcq.model.Quiz;
 import com.example.demomcq.model.Result;
 import com.example.demomcq.repository.QuestionRepo;
+import com.example.demomcq.repository.QuizRepo;
 import com.example.demomcq.repository.ResultRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
@@ -12,6 +14,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.Set;
 
 @Service
 public class QuizService {
@@ -26,21 +29,17 @@ public class QuizService {
 	Result result;
 	@Autowired
 	ResultRepo rRepo;
-	
-	public QuestionForm getQuestions() {
-		List<Question> allQues = qRepo.findAll();
-		List<Question> qList = new ArrayList<Question>();
-		
-		Random random = new Random();
-		
-		for(int i=0; i<10; i++) {
-			int rand = random.nextInt(allQues.size());
-			qList.add(allQues.get(rand));
-			allQues.remove(rand);
-		}
+	@Autowired
+	QuizRepo quizRepo;
 
-		qForm.setQuestions(qList);
-		
+	public List<Quiz> getAll() {
+		return quizRepo.findAll();
+	}
+	
+	public QuestionForm getQuestions(Quiz quiz) {
+		List<Question> allQues = quiz.getQuestions();
+		qForm.setQuestions(allQues);
+		qForm.setTime(quiz.getTime());
 		return qForm;
 	}
 
@@ -70,5 +69,9 @@ public class QuizService {
 	public List<Result> getTopScore() {
 		List<Result> sList = rRepo.findAll(Sort.by(Sort.Direction.DESC, "totalCorrect"));
 		return sList;
+	}
+
+	public Quiz findById(Integer id) {
+		return quizRepo.findById(id).get();
 	}
 }
